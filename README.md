@@ -77,10 +77,7 @@ ai-gateway/
 
 ## Gestion de secretos
 
-- todos los secretos deben vivir en `.env` local
-- no se deben subir archivos `.env` al repositorio
-- `docker-compose.yml` no define claves reales por defecto
-- antes de publicar en GitHub, rota cualquier clave que se haya usado en local
+- todos los secretos viven en `.env` local
 
 ## Variables clave
 
