@@ -7,11 +7,11 @@ API de orquestacion y aplicacion web para analisis de texto y PDF con autenticac
 
 ## Que hace este proyecto
 
-- centraliza el acceso a capacidades NLP en un unico punto
-- ofrece login y control de acceso con JWT
-- aplica rate limiting en login y endpoints de analisis
-- integra una interfaz web para analisis de texto y documentos PDF
-- persiste usuarios en MySQL con contrasenas hasheadas
+- Centraliza el acceso a capacidades NLP en un unico punto.
+- Ofrece login y control de acceso con JWT.
+- Aplica rate limiting en login y endpoints de analisis.
+- Integra una interfaz web para analisis de texto y documentos PDF.
+- Persiste usuarios en MySQL con contrasenas hasheadas.
 
 ## Dependencias de microservicios
 
@@ -70,14 +70,14 @@ ai-gateway/
 
 ## Seguridad
 
-- JWT para acceso desde frontend
-- limitacion de peticiones por IP y endpoint
-- API key opcional para clientes servidor-a-servidor
-- microservicios internos no expuestos al exterior en despliegue compuesto
+- JWT para acceso desde frontend.
+- limitacion de peticiones por IP y endpoint.
+- API key opcional para clientes servidor-a-servidor.
+- microservicios internos no expuestos al exterior en despliegue compuesto.
 
 ## Gestion de secretos
 
-- todos los secretos viven en `.env` local
+- Todos los secretos viven en `.env` local.
 
 ## Variables clave
 
