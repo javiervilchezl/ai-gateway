@@ -1,0 +1,83 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: gateway-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-gateway_db}
+      MYSQL_USER: ${MYSQL_USER:-gateway_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backend/docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    expose:
+      - "3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "--password=${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+
+  gateway-backend:
+    build:
+      context: ./backend
+    container_name: gateway-backend
+    env_file:
+      - .env
+    environment:
+      APP_NAME: ai-gateway-backend
+      APP_ENV: development
+      LOG_LEVEL: INFO
+      PROVIDER: ${PROVIDER:-openai}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_MODEL: ${GROQ_MODEL:-llama-3.1-8b-instant}
+      PDF_SERVICE_URL: ${PDF_SERVICE_URL:-http://host.docker.internal:8001}
+      CLASSIFIER_SERVICE_URL: ${CLASSIFIER_SERVICE_URL:-http://host.docker.internal:8002}
+      INTENT_SERVICE_URL: ${INTENT_SERVICE_URL:-http://host.docker.internal:8003}
+      HELICONE_API_KEY: ${HELICONE_API_KEY:-}
+      LANGFUSE_PUBLIC_KEY: ${LANGFUSE_PUBLIC_KEY:-}
+      LANGFUSE_SECRET_KEY: ${LANGFUSE_SECRET_KEY:-}
+      LANGFUSE_HOST: ${LANGFUSE_HOST:-https://cloud.langfuse.com}
+      ENABLE_OPENLIT: ${ENABLE_OPENLIT:-false}
+    ports:
+      - "8000:8000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health').read()"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  gateway-frontend:
+    build:
+      context: ./frontend
+    container_name: gateway-frontend
+    env_file:
+      - .env
+    environment:
+      VITE_API_BASE_URL: ""
+      VITE_PROXY_TARGET: ${VITE_PROXY_TARGET:-http://gateway-backend:8000}
+    ports:
+      - "5173:5173"
+    depends_on:
+      gateway-backend:
+        condition: service_healthy
+
+  demo-client:
+    build:
+      context: ../demo-client
+    container_name: demo-client
+    profiles: ["cli"]
+    environment:
+      GATEWAY_URL: ${GATEWAY_URL:-http://host.docker.internal:8000}
+    entrypoint: ["python", "cli.py"]
+
+volumes:
+  mysql_data:
+

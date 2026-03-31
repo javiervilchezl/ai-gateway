@@ -1,0 +1,23 @@
+# Entornos y secretos
+.env
+.env.local
+
+# Python backend
+backend/.venv/
+backend/__pycache__/
+backend/.pytest_cache/
+backend/.coverage
+backend/htmlcov/
+
+# Node frontend
+frontend/node_modules/
+frontend/dist/
+frontend/coverage/
+
+# Generales
+__pycache__/
+.pytest_cache/
+.coverage
+coverage/
+dist/
+build/
