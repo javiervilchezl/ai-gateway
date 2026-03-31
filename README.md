@@ -134,4 +134,4 @@ cd frontend
 npm test -- --run
 ```
 
-Cobertura configurada al 100%.
+Cobertura al 100%.
