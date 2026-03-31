@@ -3,7 +3,7 @@
 API de orquestacion y aplicacion web para analisis de texto y PDF con autenticacion JWT.
 
 <img width="1920" height="1734" alt="FireShot Capture 008 - AI Gateway -  localhost" src="https://github.com/user-attachments/assets/190d255d-d967-423c-9969-c86eacce1c0b" />
-<img width="1920" height="1734" alt="FireShot Capture 008 - AI Gateway -  localhost" src="https://github.com/user-attachments/assets/6da0105f-e825-4268-a30b-030dfb492ab3" />
+<img width="1920" height="947" alt="FireShot Capture 009 - AI Gateway -  localhost" src="https://github.com/user-attachments/assets/a45dec40-c59d-459d-8a5f-fd0d99e532be" />
 
 ## Que hace este proyecto
 
